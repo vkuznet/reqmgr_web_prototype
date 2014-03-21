@@ -1,0 +1,103 @@
+<div class="units-row">
+    $menu
+    <div class="unit-70">
+
+<h4>Team management</h4>
+<form method="get" action="$base/add_team" class="forms">
+<div class="units-row">
+    <div class="unit-30">
+    <p class="input-groups">
+        <input type="text" name="addteam" placeholder="Add team" />
+        <span class="btn-append">
+            <button class="btn btn-black">Add</button>
+        </span>
+    </p>
+    </div>
+    <div class="unit-30">
+        <span class="forms-desc">Team explanation</span>
+    </div>
+</div>
+</form>
+
+<hr />
+
+<h4>Group management</h4>
+<form method="get" action="$base/add_group" class="forms">
+<div class="units-row">
+    <div class="unit-30">
+    <p class="input-groups">
+        <input type="text" name="addgroup" placeholder="Add group" />
+        <span class="btn-append">
+            <button class="btn btn-blue">Add</button>
+        </span>
+    </p>
+    </div>
+    <div class="unit-30">
+        <span class="forms-desc">Group will be associated with the following team</span>
+    </div>
+    <div class="unit-20">
+        <select>
+            <option>cmsdataops</option>
+        </select>
+    </div>
+</div>
+</form>
+
+<hr />
+
+<h4>User management</h4>
+<form method="get" action="$base/add_user" class="forms">
+<div class="units-row">
+    <div class="unit-30">
+    <p class="input-groups">
+        <input type="text" name="adduser" placeholder="Add user" />
+        <span class="btn-append">
+            <button class="btn btn-green">Add</button>
+        </span>
+    </p>
+    </div>
+    <div class="unit-30">
+        <span class="forms-desc">User will be added to the following group</span>
+    </div>
+    <div class="unit-20">
+        <select>
+            <option>SomeGroupName</option>
+        </select>
+    </div>
+</div>
+</form>
+
+<hr />
+
+<h4>Existing accounts</h4>
+<div class="table-container">
+    <table class="table-bordered width-100">
+    <thead>
+        <tr>
+            <th>Users</th>
+            <th>Groups</th>
+            <th>Teams</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>User 1</td>
+            <td>Group 1</td>
+            <td>Team 1</td>
+        </tr>
+        <tr>
+            <td>User 2</td>
+            <td>Group 2</td>
+            <td>Team 3</td>
+        </tr>
+        <tr>
+            <td>User 3</td>
+            <td>Group 2</td>
+            <td>Team 3</td>
+        </tr>
+    </tbody>
+    </table>
+</div>
+        <div id="results">$content</div>
+    </div>
+</div>
