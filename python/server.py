@@ -6,7 +6,9 @@ from webmgr import WebManager
 
 def main():
     "Main function"
-#    cherrypy.config.update("web.conf")
+    port = os.environ.get('WEB_PORT', 8080)
+    print "port", port
+    cherrypy.config.update({'server.socket_port': int(port)})
     conf={'/': {'tools.staticdir.root': os.getcwd(),
                 'tools.response_headers.on':True,
                 'tools.response_headers.headers':
