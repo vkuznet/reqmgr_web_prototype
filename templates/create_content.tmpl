@@ -1,0 +1,54 @@
+<header class="group">
+    <nav class="navbar navbar-left">
+        <ul>
+        <li class="active"><a href="#">ReReco</a></li>
+        <li><a href="#">MonteCarlo</a></li>
+        <li><a href="#">StoreResults</a></li>
+        <li><a href="#">DataProcessing</a></li>
+        <li><a href="#">Resubmission</a></li>
+        <li><a href="#">ReDigi</a></li>
+        </ul>
+    </nav>
+    <nav class="navbar navbar-right">
+        <ul>
+        <li><button class="btn btn-black btn-active" id="btn-table" onclick="activateTable()">Table</button></li>
+        <li><button class="btn btn-black" id="btn-json" onclick="activateJSON()">JSON</button></li>
+        </ul>
+    </nav>
+</header>
+
+<form method="get" action="" class="forms">
+<div name="edit-table" id="edit-table">
+$table
+    <p class="units-row">
+    <button class="btn btn-green unit-push-right">Create</button>
+    </p>
+</div>
+</form>
+<form method="get" action="" class="forms">
+<div name="edit-json" id="edit-json" class="hide">
+    <textarea class="editor lined">
+$jsondata
+    </textarea>
+    <br/>
+    <p class="units-row">
+    <button class="btn btn-green unit-push-right">Create</button>
+    </p>
+</div>
+</form>
+<script>
+function activateTable() {
+    var id = document.getElementById('btn-table');
+    id.className="btn btn-black btn-active";
+    id = document.getElementById('btn-json');
+    id.className="btn btn-black";
+    ShowTag('edit-table');HideTag('edit-json');
+}
+function activateJSON() {
+    var id = document.getElementById('btn-json');
+    id.className="btn btn-black btn-active";
+    id = document.getElementById('btn-table');
+    id.className="btn btn-black";
+    ShowTag('edit-json');HideTag('edit-table');
+}
+</script>
