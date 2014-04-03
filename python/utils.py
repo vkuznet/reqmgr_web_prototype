@@ -9,6 +9,8 @@ Description:
 
 # system modules
 import cgi
+import json
+import hashlib
 
 def quote(data):
     """
@@ -65,3 +67,14 @@ def json2table(jsondata):
         table += "<tr><td>%s</td><td>%s</td></tr>\n" % (kname, val)
     table += "</table>"
     return table
+
+def genid(kwds):
+    "Generate id for given field"
+    if  isinstance(kwds, dict):
+        record = dict(kwds)
+        data = json.JSONEncoder(sort_keys=True).encode(record)
+    else:
+        data = str(kwds)
+    keyhash = hashlib.md5()
+    keyhash.update(data)
+    return keyhash.hexdigest()
