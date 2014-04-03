@@ -4,7 +4,7 @@
 """
 File       : utils.py
 Author     : Valentin Kuznetsov <vkuznet AT gmail dot com>
-Description: 
+Description:
 """
 
 # system modules
@@ -34,3 +34,34 @@ def quote(data):
             print "Unable to cgi.escape(%s, quote=True)" % data
             res = ""
     return res
+
+def json2table(jsondata):
+    """
+    Convert input json dict into HTML table based on assumtion that
+    input json is in a simple key:value form.
+    """
+    table = """<table class="table-bordered width-100">\n"""
+    table += "<thead><tr><th>Field</th><th>Value</th></tr></thead>\n"
+    keys = sorted(jsondata.keys())
+    for key in keys:
+        val = jsondata[key]
+        if  isinstance(val, list):
+            sel = "<select>"
+            values = sorted(val)
+            if  key in ['releases', 'software_releases']:
+                values.reverse()
+            for item in values:
+                sel += "<option>%s</option>" % item
+            sel += "</select>"
+            val = sel
+        elif isinstance(val, basestring):
+            if  len(val) < 80:
+                val = '<input type="text" name="%s" value="%s" />' % (key, val)
+            else:
+                val = '<textarea name="%s" class="width-100">%s</textarea>' % (key, val)
+        else:
+            val = '<input type="text" name="%s" value="%s" />' % (key, val)
+        kname = key.capitalize().replace('_', ' ')
+        table += "<tr><td>%s</td><td>%s</td></tr>\n" % (kname, val)
+    table += "</table>"
+    return table
