@@ -81,8 +81,12 @@ class WebManager(TemplatedPage):
     def abs_page(self, tmpl, content, user='testuser'):
         """generate abstract page"""
         menu = self.templatepage('menu', menus=menus(tmpl), base=self.base)
-        body = self.templatepage(tmpl, menu=menu, content=content, base=self.base)
-        page = self.templatepage('main', content=body, base=self.base, user=user)
+        if  tmpl == 'main':
+            body = self.templatepage('generic', menu=menu, content=content, base=self.base)
+            page = self.templatepage('main', content=body, base=self.base, user=user)
+        else:
+            body = self.templatepage(tmpl, menu=menu, content=content, base=self.base)
+            page = self.templatepage('main', content=body, base=self.base, user=user)
         return page
 
     def page(self, content):
@@ -96,10 +100,38 @@ class WebManager(TemplatedPage):
         """Main page"""
         return self.abs_page('search', 'search page')
 
+    ### Admin actions ###
+
     @expose
     def admin(self, **kwargs):
         """admin page"""
         return self.abs_page('admin', 'admin page')
+
+    @expose
+    def add_user(self, **kwargs):
+        """add_user action"""
+        rid = genid(kwargs)
+        msg = 'Return to <a href="/admin">admin</a> page.'
+        content = self.templatepage('confirm', ticket=rid, msg=msg)
+        return self.abs_page('generic', content)
+
+    @expose
+    def add_group(self, **kwargs):
+        """add_group action"""
+        rid = genid(kwargs)
+        msg = 'Return to <a href="/admin">admin</a> page.'
+        content = self.templatepage('confirm', ticket=rid, msg=msg)
+        return self.abs_page('generic', content)
+
+    @expose
+    def add_team(self, **kwargs):
+        """add_team action"""
+        rid = genid(kwargs)
+        msg = 'Return to <a href="/admin">admin</a> page.'
+        content = self.templatepage('confirm', ticket=rid, msg=msg)
+        return self.abs_page('generic', content)
+
+    ### Request actions ###
 
     @expose
     def assign(self, **kwargs):
@@ -119,10 +151,10 @@ class WebManager(TemplatedPage):
                 "software_releases":["cmssw_7_0_0", "cmssw_6_8_1"],
                 "architecture": ["slc5_amd64_gcc472", "slc5_ad4_gcc481"],
                 "parents": [True, False]}
-        content = self.templatepage('create_content',
+        content = self.templatepage('create',
                 jsondata=pprint.pformat(jsondata),
                 table=json2table(jsondata))
-        return self.abs_page('create', content)
+        return self.abs_page('generic', content)
 
     @expose
     def confirm_create(self, **kwargs):
@@ -130,7 +162,7 @@ class WebManager(TemplatedPage):
         rid = genid(kwargs)
         msg = '<a href="/create">Create</a> another request.'
         content = self.templatepage('confirm', ticket=rid, msg=msg)
-        return self.abs_page('create', content)
+        return self.abs_page('generic', content)
 
     @expose
     def requests(self, **kwargs):
@@ -163,6 +195,8 @@ class WebManager(TemplatedPage):
         json_data = self.templatepage('json',
                 header=header, code=pprint.pformat(data))
         return self.abs_page('search', json_data)
+
+    ### Aux methods ###
 
     @expose
     def images(self, *args, **kwargs):
