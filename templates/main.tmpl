@@ -10,8 +10,8 @@
 </head>
 <body class="kubepage">
 
-    <div class="wrap">
-        <nav id="nav" class="navbar header">
+    <header class="group header">
+        <nav class="navbar navbar-left">
             <ul>
             <li><img src="$base/images/cms_logo.jpg" alt="" style="width:30px" ></li>
             <li><a href="$base" class="btn">ReqMgr</a></li>
@@ -21,7 +21,11 @@
             <li><a href="/agent4/" class="btn">Agent 4</a></li>
             </ul>
         </nav>
-    </div>
+        <nav class="navbar navbar-right">
+            <strong>User: $user</strong>
+        </nav>
+    </header>
+    <br/>
 
     $content
 
