@@ -17,15 +17,21 @@
     </nav>
 </header>
 
-<form method="get" action="" class="forms">
+<form method="post" action="/confirm_create" class="forms">
 <div name="edit-table" id="edit-table">
+<strong>
+Please use the following table to fill out template form. If you need to extend it
+fill free to switch to JSON format and edit JSON directly.
+</strong>
 $table
     <p class="units-row">
+    <div id="confirmation"></div>
     <button class="btn btn-green unit-push-right">Create</button>
+    <button class="btn unit-push-right" onclick="clearTable()">Clear</button>
     </p>
 </div>
 </form>
-<form method="get" action="" class="forms">
+<form method="post" action="/confirm_create" class="forms">
 <div name="edit-json" id="edit-json" class="hide">
     <textarea class="editor lined">
 $jsondata
@@ -33,6 +39,7 @@ $jsondata
     <br/>
     <p class="units-row">
     <button class="btn btn-green unit-push-right">Create</button>
+    <button class="btn unit-push-right" onclick="clearJSON()">Clear</button>
     </p>
 </div>
 </form>
