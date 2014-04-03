@@ -19,7 +19,7 @@ from cherrypy.lib.static import serve_file
 from cherrypy import config as cherryconf
 
 from tools import exposecss, exposejs, exposejson, TemplatedPage
-from utils import json2table
+from utils import json2table, genid
 from url_utils import getdata
 
 def set_headers(itype, size=0):
@@ -43,7 +43,7 @@ def minify(content):
 
 def menus(active='search'):
     "Return dict of menus"
-    items = ['admin', 'assign', 'approve', 'create', 'search', 'validate']
+    items = ['admin', 'assign', 'approve', 'create', 'requests', 'search', 'validate']
     mdict = dict(zip(items, ['']*len(items)))
     mdict[active] = 'active'
     return mdict
@@ -78,11 +78,11 @@ class WebManager(TemplatedPage):
                           })
         self._cache    = {}
 
-    def abs_page(self, tmpl, content):
+    def abs_page(self, tmpl, content, user='testuser'):
         """generate abstract page"""
         menu = self.templatepage('menu', menus=menus(tmpl), base=self.base)
         body = self.templatepage(tmpl, menu=menu, content=content, base=self.base)
-        page = self.templatepage('main', content=body, base=self.base)
+        page = self.templatepage('main', content=body, base=self.base, user=user)
         return page
 
     def page(self, content):
@@ -116,13 +116,28 @@ class WebManager(TemplatedPage):
         """create page"""
         jsondata = {"user":"testuser", "group":['group1', 'group2'],
                 "request_priority":1,
-                "software_releases":["CMSSW_7_0_0", "CMSSW_6_8_1"],
+                "software_releases":["cmssw_7_0_0", "cmssw_6_8_1"],
                 "architecture": ["slc5_amd64_gcc472", "slc5_ad4_gcc481"],
                 "parents": [True, False]}
         content = self.templatepage('create_content',
                 jsondata=pprint.pformat(jsondata),
                 table=json2table(jsondata))
         return self.abs_page('create', content)
+
+    @expose
+    def confirm_create(self, **kwargs):
+        """create page"""
+        rid = genid(kwargs)
+        msg = '<a href="/create">Create</a> another request.'
+        content = self.templatepage('confirm', ticket=rid, msg=msg)
+        return self.abs_page('create', content)
+
+    @expose
+    def requests(self, **kwargs):
+        """Check status of requests"""
+        rid = kwargs.get('rid', '')
+        content = self.templatepage('myrequests', rid=rid)
+        return self.abs_page('requests', content)
 
     @expose
     def search(self, **kwargs):
