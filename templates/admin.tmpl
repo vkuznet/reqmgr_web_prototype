@@ -1,9 +1,20 @@
-<div class="units-row">
-    $menu
-    <div class="unit-70">
+<header class="group">
+    <nav class="navbar navbar-left">
+    <h2>Admin interface</h2>
+    </nav>
+    <nav class="navbar navbar-right">
+        <ul>
+        <li><button class="btn btn-active" id="btn-actions" onclick="activateActions()">Actions</button></li>
+        <li><button class="btn" id="btn-accounts" onclick="activateAccounts()">Accounts</button></li>
+        </ul>
+    </nav>
+</header>
+<hr/>
+
+<div id="admin-actions">
 
 <h4>Team management</h4>
-<form method="get" action="$base/add_team" class="forms">
+<form method="post" action="$base/add_team" class="forms">
 <div class="units-row">
     <div class="unit-30">
         <p class="input-groups">
@@ -22,7 +33,7 @@
 <hr />
 
 <h4>Group management</h4>
-<form method="get" action="$base/add_group" class="forms">
+<form method="post" action="$base/add_group" class="forms">
 <div class="units-row">
     <div class="unit-30">
         <p class="input-groups">
@@ -46,7 +57,7 @@
 <hr />
 
 <h4>User management</h4>
-<form method="get" action="$base/add_user" class="forms">
+<form method="post" action="$base/add_user" class="forms">
 <div class="units-row">
     <div class="unit-30">
         <p class="input-groups">
@@ -67,7 +78,11 @@
 </div>
 </form>
 
-<hr />
+</div> <!-- end of actions -->
+
+<!-- Accounts -->
+
+<div id="admin-accounts" class="hide">
 
 <h4>Existing accounts</h4>
 <div class="table-container">
@@ -98,6 +113,22 @@
     </tbody>
     </table>
 </div>
-        <div id="results">$content</div>
-    </div>
-</div>
+
+</div> <!-- end of accounts -->
+
+<script>
+function activateActions() {
+    var id = document.getElementById('btn-actions');
+    id.className="btn btn-active";
+    id = document.getElementById('btn-accounts');
+    id.className="btn";
+    ShowTag('admin-actions');HideTag('admin-accounts');
+}
+function activateAccounts() {
+    var id = document.getElementById('btn-accounts');
+    id.className="btn btn-active";
+    id = document.getElementById('btn-actions');
+    id.className="btn";
+    ShowTag('admin-accounts');HideTag('admin-actions');
+}
+</script>

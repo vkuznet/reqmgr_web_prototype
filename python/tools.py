@@ -79,6 +79,7 @@ class TemplatedPage(Page):
         templatedir  = os.environ.get('TMPL_ROOT', os.getcwd()+'/templates')
         self.templatedir = config.get('templatedir', templatedir)
         self.name = "TemplatedPage"
+        self.base = config.get('base', '')
         verbose = config.get('verbose', 0)
         if  verbose:
             self.info("Templates are located in: %s" % self.templatedir)
@@ -88,7 +89,7 @@ class TemplatedPage(Page):
         """
         Template page method.
         """
-        search_list = []
+        search_list = [{'base':self.base}]
         if len(args) > 0:
             search_list.append(args)
         if len(kwargs) > 0:

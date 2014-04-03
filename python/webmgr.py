@@ -53,10 +53,10 @@ class WebManager(TemplatedPage):
     web manager.
     """
     def __init__(self, config=None):
-        if  not config:
-            config = {}
-        TemplatedPage.__init__(self, config)
         self.base   = '' # defines base path for HREF in templates
+        if  not config:
+            config = {'base': self.base}
+        TemplatedPage.__init__(self, config)
         self.imgdir = os.environ.get('IMG_ROOT', os.getcwd()+'/images')
         self.cssdir = os.environ.get('CSS_ROOT', os.getcwd()+'/css')
         self.jsdir  = os.environ.get('JS_ROOT', os.getcwd()+'/js')
@@ -80,32 +80,34 @@ class WebManager(TemplatedPage):
 
     def abs_page(self, tmpl, content, user='testuser'):
         """generate abstract page"""
-        menu = self.templatepage('menu', menus=menus(tmpl), base=self.base)
+        menu = self.templatepage('menu', menus=menus(tmpl))
         if  tmpl == 'main':
-            body = self.templatepage('generic', menu=menu, content=content, base=self.base)
-            page = self.templatepage('main', content=body, base=self.base, user=user)
+            body = self.templatepage('generic', menu=menu, content=content)
+            page = self.templatepage('main', content=body, user=user)
         else:
-            body = self.templatepage(tmpl, menu=menu, content=content, base=self.base)
-            page = self.templatepage('main', content=body, base=self.base, user=user)
+            body = self.templatepage(tmpl, menu=menu, content=content)
+            page = self.templatepage('main', content=body, user=user)
         return page
 
     def page(self, content):
         """
         Provide page wrapped with top/bottom templates.
         """
-        return self.templatepage('main', content=content, base=self.base)
+        return self.templatepage('main', content=content)
 
     @expose
     def index(self, **kwargs):
         """Main page"""
-        return self.abs_page('search', 'search page')
+        content = self.templatepage('search')
+        return self.abs_page('generic', content)
 
     ### Admin actions ###
 
     @expose
     def admin(self, **kwargs):
         """admin page"""
-        return self.abs_page('admin', 'admin page')
+        content = self.templatepage('admin')
+        return self.abs_page('generic', content)
 
     @expose
     def add_user(self, **kwargs):
@@ -136,12 +138,14 @@ class WebManager(TemplatedPage):
     @expose
     def assign(self, **kwargs):
         """assign page"""
-        return self.abs_page('assign', 'assign page')
+        content = self.templatepage('assign')
+        return self.abs_page('generic', content)
 
     @expose
     def approve(self, **kwargs):
         """approve page"""
-        return self.abs_page('approve', 'approve page')
+        content = self.templatepage('approve')
+        return self.abs_page('generic', content)
 
     @expose
     def create(self, **kwargs):
@@ -168,18 +172,20 @@ class WebManager(TemplatedPage):
     def requests(self, **kwargs):
         """Check status of requests"""
         rid = kwargs.get('rid', '')
-        content = self.templatepage('myrequests', rid=rid)
-        return self.abs_page('requests', content)
+        content = self.templatepage('requests', rid=rid)
+        return self.abs_page('generic', content)
 
     @expose
     def search(self, **kwargs):
         """search page"""
-        return self.abs_page('search', 'search page')
+        content = self.templatepage('search')
+        return self.abs_page('generic', content)
 
     @expose
     def validate(self, **kwargs):
         """validate page"""
-        return self.abs_page('validate', 'validate page')
+        content = self.templatepage('validate')
+        return self.abs_page('generic', content)
 
     @expose
     def request(self, **kwargs):

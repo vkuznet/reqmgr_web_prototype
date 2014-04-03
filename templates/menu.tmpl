@@ -3,6 +3,9 @@
 <nav class="nav nav-stacked">
     <ul>
 #for item in sorted($menus.keys())
+#if $item == 'generic'
+#continue
+#end if
 #set style=$menus[$item]
 #set title=$item.capitalize()
     <li class="$style"><a href="$base/$item">$title</a></li>
