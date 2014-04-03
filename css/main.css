@@ -14,3 +14,11 @@
 /*    border-left: 3ex solid #eee;*/
     position: relative;
 }
+.hide {
+    display: none;
+}
+.show {
+    display: block;
+    margin-top:6px;
+    border-top-width:1px;
+}
