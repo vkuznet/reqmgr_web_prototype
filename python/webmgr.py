@@ -103,8 +103,16 @@ class WebManager(TemplatedPage):
     @expose
     def index(self, **kwargs):
         """Main page"""
-        content = '<h3>ReqMgr web UI mock-up</h3>'
-        content += 'Your feedback is encouraging!'
+        apis = {}
+        scripts = {}
+        for idx in range(5):
+            key = 'api_%s' % idx
+            val = '%s description' % key
+            apis[key] = val
+            skey = 'script_%s' % idx
+            sval = '%s description' % skey
+            scripts[skey] = sval
+        content = self.templatepage('apis', apis=apis, scripts=scripts)
         return self.abs_page('generic', content)
 
     ### Admin actions ###
