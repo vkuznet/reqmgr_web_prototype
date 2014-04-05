@@ -166,11 +166,25 @@ function ClearFilters() {
     load('/das/request?'+$('das_search').serialize());
 }
 // Select all checkboxes
-function checkAll(bx) {
+function CheckAll(bx) {
   var cbs = document.getElementsByTagName('input');
   for(var i=0; i < cbs.length; i++) {
     if(cbs[i].type == 'checkbox') {
       cbs[i].checked = bx.checked;
     }
   }
+}
+// change menu items
+function ChangeMenuItem(cls, tag) {
+    var item = document.getElementsByClassName(cls);
+    for (var i = 0; i < item.length; i++ ) {
+        item[i].className=cls;
+    }
+    tag.parentNode.className = cls+" active underline"
+}
+// change background of current line
+function MakeCursor(tarea, tag) {
+    var cid = document.getElementById(tag);
+    var lid = tarea.value.substr(0, tarea.selectionStart).split("\n").length;
+    cid.innerHTML = '<div class="right gray" style="margin-top:'+lid+'em;">&#10145;</div>';
 }
