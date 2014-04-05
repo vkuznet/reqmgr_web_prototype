@@ -2,12 +2,18 @@
 <hr/>
 <header class="group">
 <nav class="navbar navbar-left">
-<strong>
-This form will list all pending requests which require your approval
-</strong>
+    <strong>
+    This form will list all pending requests which require your approval
+    </strong>
 </nav>
 <nav class="navbar navbar-right">
-Sort by: <a href="#">Status</a> | <a href="#">Date</a> | <a href="#">Id</a> | <a href="#">Team</a>
+    <ul>
+        <li>Sort by:</li>
+        <li class="menu-item active underline"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Status</a></li>
+        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Date</a></li>
+        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Id</a></li>
+        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Team</a></li>
+    </ul>
 </nav>
 </header>
 <hr/>
@@ -21,12 +27,18 @@ Sort by: <a href="#">Status</a> | <a href="#">Date</a> | <a href="#">Id</a> | <a
 #elif $key.lower()=="id"
 #set val='&nbsp;<span class="ticket">%s</span>&nbsp;'%$val
 #end if
-<strong>$key.capitalize():</strong>&nbsp;$val
+    <strong>$key.capitalize():</strong>&nbsp;$val
 #end for
 </nav>
 <nav class="navbar navbar-right">
-<a href="#">Approve</a>
+    <button class="btn btn-gray" onclick="ApproveOk(this)">Approve</button>
 </nav>
 </header>
 <hr/>
 #end for
+<script>
+function ApproveOk(tag) {
+    tag.className="btn btn-green";
+    tag.innerHTML="DONE";
+}
+</script>

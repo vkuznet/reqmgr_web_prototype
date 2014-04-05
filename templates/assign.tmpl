@@ -20,13 +20,14 @@ first N requests).
 Users will be able to perform sort by user/request/teams.
 Once satisfied with selection user will be able to perform an action to selected
 group of requests.
+<form method="post" action="/confirm_create" class="forms">
+
 <div class="table-container">
-    <form method="post" action="/confirm_create" class="forms">
     <table class="table-bordered width-100">
     <thead>
         <tr>
             <th class="width-10">
-                <input type="checkbox" name="checkbox-all" id="checkbox-all" onclick="checkAll(this)"/>
+                <input type="checkbox" name="checkbox-all" id="checkbox-all" onclick="CheckAll(this)"/>
                 Select
             </th>
             <th>Requests</th>
@@ -65,17 +66,32 @@ group of requests.
         </tr>
     </tbody>
     </table>
-    <br/>
-    <div class="units-row">
-        <div class="unit-20 unit-push-60">
+</div>
+<!--
+<div class="units-row">
+    <div class="unit-20 unit-push-60">
+        <select>
+            <option>SomeGroupName</option>
+        </select>
+    </div>
+    <div class="unit-40 unit-push-right">
+        <button class="btn btn-green">Assign</button>
+    </div>
+</div>
+-->
+<div class="units-row">
+    <div class="unit-push-right">
+        <ul class="forms-inline-list">
+        <li>
             <select>
                 <option>SomeGroupName</option>
             </select>
-        </div>
-        <div class="unit-20 unit-push-right">
-            <button class="btn">Cancel</button>
+        </li>
+        <li>
             <button class="btn btn-green">Assign</button>
-        </div>
+        </li>
+        </ul>
     </div>
-    </form>
 </div>
+
+</form>
