@@ -21,12 +21,12 @@ Users will be able to perform sort by user/request/teams.
 Once satisfied with selection user will be able to perform an action to selected
 group of requests.
 <div class="table-container">
-    <form method="post" action="" class="forms">
+    <form method="post" action="/confirm_create" class="forms">
     <table class="table-bordered width-100">
     <thead>
         <tr>
             <th class="width-10">
-                <input type="checkbox" name="checkbox-all" id="checkbox-all">
+                <input type="checkbox" name="checkbox-all" id="checkbox-all" onclick="checkAll(this)"/>
                 Select
             </th>
             <th>Requests</th>
@@ -38,7 +38,7 @@ group of requests.
     <tbody>
         <tr>
             <td>
-               <input type="checkbox" name="checkbox-1" id="checkbox-1">
+               <input type="checkbox" name="checkbox-1" id="checkbox-1"/>
             </td>
             <td>Request 1</td>
             <td>User 1</td>
@@ -47,7 +47,7 @@ group of requests.
         </tr>
         <tr>
             <td>
-               <input type="checkbox" name="checkbox-2" id="checkbox-2">
+               <input type="checkbox" name="checkbox-2" id="checkbox-2"/>
             </td>
             <td>Request 2</td>
             <td>User 2</td>
@@ -56,7 +56,7 @@ group of requests.
         </tr>
         <tr>
             <td>
-               <input type="checkbox" name="checkbox-3" id="checkbox-3">
+               <input type="checkbox" name="checkbox-3" id="checkbox-3"/>
             </td>
             <td>Request 3</td>
             <td>User 3</td>
@@ -73,8 +73,8 @@ group of requests.
             </select>
         </div>
         <div class="unit-20 unit-push-right">
-            <button class="btn btn-green">Assign</button>
             <button class="btn">Cancel</button>
+            <button class="btn btn-green">Assign</button>
         </div>
     </div>
     </form>

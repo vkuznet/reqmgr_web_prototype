@@ -165,10 +165,12 @@ function ClearFilters() {
     }
     load('/das/request?'+$('das_search').serialize());
 }
-// jQuery stuff
-// callback to make line numbers in textarea with lined class
-function MakeLines() {
-    $(".lined").linedtextarea(
-        {selectedLine: 1}
-    );
+// Select all checkboxes
+function checkAll(bx) {
+  var cbs = document.getElementsByTagName('input');
+  for(var i=0; i < cbs.length; i++) {
+    if(cbs[i].type == 'checkbox') {
+      cbs[i].checked = bx.checked;
+    }
+  }
 }

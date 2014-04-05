@@ -10,6 +10,7 @@ __author__ = "Valentin Kuznetsov"
 # system modules
 import os
 import sys
+import time
 import pprint
 
 # cherrypy modules
@@ -78,15 +79,19 @@ class WebManager(TemplatedPage):
                           })
         self._cache    = {}
 
-    def abs_page(self, tmpl, content, user='testuser'):
+    def user(self):
+        "Return user name associated with this instance"
+        return 'testuser'
+
+    def abs_page(self, tmpl, content):
         """generate abstract page"""
         menu = self.templatepage('menu', menus=menus(tmpl))
         if  tmpl == 'main':
             body = self.templatepage('generic', menu=menu, content=content)
-            page = self.templatepage('main', content=body, user=user)
+            page = self.templatepage('main', content=body, user=self.user())
         else:
             body = self.templatepage(tmpl, menu=menu, content=content)
-            page = self.templatepage('main', content=body, user=user)
+            page = self.templatepage('main', content=body, user=self.user())
         return page
 
     def page(self, content):
@@ -98,7 +103,8 @@ class WebManager(TemplatedPage):
     @expose
     def index(self, **kwargs):
         """Main page"""
-        content = self.templatepage('search')
+        content = '<h3>ReqMgr web UI mock-up</h3>'
+        content += 'Your feedback is encouraging!'
         return self.abs_page('generic', content)
 
     ### Admin actions ###
@@ -113,24 +119,21 @@ class WebManager(TemplatedPage):
     def add_user(self, **kwargs):
         """add_user action"""
         rid = genid(kwargs)
-        msg = 'Return to <a href="/admin">admin</a> page.'
-        content = self.templatepage('confirm', ticket=rid, msg=msg)
+        content = self.templatepage('confirm', ticket=rid, user=self.user())
         return self.abs_page('generic', content)
 
     @expose
     def add_group(self, **kwargs):
         """add_group action"""
         rid = genid(kwargs)
-        msg = 'Return to <a href="/admin">admin</a> page.'
-        content = self.templatepage('confirm', ticket=rid, msg=msg)
+        content = self.templatepage('confirm', ticket=rid, user=self.user())
         return self.abs_page('generic', content)
 
     @expose
     def add_team(self, **kwargs):
         """add_team action"""
         rid = genid(kwargs)
-        msg = 'Return to <a href="/admin">admin</a> page.'
-        content = self.templatepage('confirm', ticket=rid, msg=msg)
+        content = self.templatepage('confirm', ticket=rid, user=self.user())
         return self.abs_page('generic', content)
 
     ### Request actions ###
@@ -144,13 +147,15 @@ class WebManager(TemplatedPage):
     @expose
     def approve(self, **kwargs):
         """approve page"""
-        content = self.templatepage('approve')
+        wdict = dict(date=time.ctime(), team='Team-A', status='Pending', ID=genid(time.time()))
+        requests = [wdict, wdict, wdict]
+        content = self.templatepage('approve', requests=requests)
         return self.abs_page('generic', content)
 
     @expose
     def create(self, **kwargs):
         """create page"""
-        jsondata = {"user":"testuser", "group":['group1', 'group2'],
+        jsondata = {"user":self.user(), "group":['group1', 'group2'],
                 "request_priority":1,
                 "software_releases":["cmssw_7_0_0", "cmssw_6_8_1"],
                 "architecture": ["slc5_amd64_gcc472", "slc5_ad4_gcc481"],
@@ -164,8 +169,7 @@ class WebManager(TemplatedPage):
     def confirm_create(self, **kwargs):
         """create page"""
         rid = genid(kwargs)
-        msg = '<a href="/create">Create</a> another request.'
-        content = self.templatepage('confirm', ticket=rid, msg=msg)
+        content = self.templatepage('confirm', ticket=rid, user=self.user())
         return self.abs_page('generic', content)
 
     @expose
@@ -178,7 +182,7 @@ class WebManager(TemplatedPage):
     @expose
     def search(self, **kwargs):
         """search page"""
-        content = self.templatepage('search')
+        content = self.templatepage('search', content="")
         return self.abs_page('generic', content)
 
     @expose
@@ -196,11 +200,12 @@ class WebManager(TemplatedPage):
         url = 'https://cmsweb.cern.ch/reqmgr/rest/outputdataset/%s' % dataset
         params = {}
         headers = {'Accept': 'application/json;text/json'}
-        data = getdata(url, params)
-        header = 'Workflow: bla, Created: 2014/03/03, Assigned: Team-A, Status: running'
-        json_data = self.templatepage('json',
-                header=header, code=pprint.pformat(data))
-        return self.abs_page('search', json_data)
+        wdata = getdata(url, params)
+        wdict = dict(date=time.ctime(), team='Team-A', status='Running', ID=genid(wdata))
+        winfo = self.templatepage('workflow', wdict=wdict,
+                dataset=dataset, code=pprint.pformat(wdata))
+        content = self.templatepage('search', content=winfo)
+        return self.abs_page('generic', content)
 
     ### Aux methods ###
 

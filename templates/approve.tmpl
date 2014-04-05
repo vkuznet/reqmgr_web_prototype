@@ -1,2 +1,32 @@
 <h2>Approve interface</h2>
 <hr/>
+<header class="group">
+<nav class="navbar navbar-left">
+<strong>
+This form will list all pending requests which require your approval
+</strong>
+</nav>
+<nav class="navbar navbar-right">
+Sort by: <a href="#">Status</a> | <a href="#">Date</a> | <a href="#">Id</a> | <a href="#">Team</a>
+</nav>
+</header>
+<hr/>
+
+#for rdict in $requests
+<header class="group">
+<nav class="navbar navbar-left">
+#for key, val in $rdict.items()
+#if $key.lower()=="date"
+#set val="<kbd>%s</kbd>"%$val
+#elif $key.lower()=="id"
+#set val='&nbsp;<span class="ticket">%s</span>&nbsp;'%$val
+#end if
+<strong>$key.capitalize():</strong>&nbsp;$val
+#end for
+</nav>
+<nav class="navbar navbar-right">
+<a href="#">Approve</a>
+</nav>
+</header>
+<hr/>
+#end for
