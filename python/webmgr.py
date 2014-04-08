@@ -54,7 +54,7 @@ class WebManager(TemplatedPage):
     web manager.
     """
     def __init__(self, config=None):
-        self.base   = '' # defines base path for HREF in templates
+        self.base   = os.environ.get('WEB_BASE', '') # defines base path for HREF in templates
         if  not config:
             config = {'base': self.base}
         TemplatedPage.__init__(self, config)

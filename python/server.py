@@ -8,6 +8,7 @@ def main():
     "Main function"
     port = os.environ.get('WEB_PORT', 8080)
     host = os.environ.get('WEB_HOST', '127.0.0.1')
+    base = os.environ.get('WEB_BASE', '/')
     print "%s:%s" % (host, port)
     cherrypy.config.update({'server.socket_port': int(port),
                             'server.socket_host': host,
@@ -19,7 +20,7 @@ def main():
                   ('Cache-Control','no-store, no-cache, must-revalidate,post-check=0, pre-check=0')]
               }, 
         }
-    cherrypy.quickstart(WebManager(), '/', config=conf)
+    cherrypy.quickstart(WebManager(), base, config=conf)
 
 if __name__ == '__main__':
     main()
