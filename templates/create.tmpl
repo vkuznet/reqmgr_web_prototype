@@ -3,23 +3,23 @@
 <header class="group">
     <nav class="navbar navbar-left">
         <ul>
-        <li class="menu-item active underline"><a href="#" onclick="ChangeMenuItem('menu-item', this);">ReReco</a></li>
-        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">MonteCarlo</a></li>
-        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">StoreResults</a></li>
-        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">DataProcessing</a></li>
-        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Resubmission</a></li>
-        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">ReDigi</a></li>
+        <li id="rereco" class="menu-item"><a href="$base/create?form=rereco">ReReco</a></li>
+        <li id="mc" class="menu-item"><a href="$base/create?form=mc">MonteCarlo</a></li>
+        <li id="storeres" class="menu-item"><a href="$base/create?form=storeres">StoreResults</a></li>
+        <li id="dataproc" class="menu-item"><a href="$base/create?form=dataproc">DataProcessing</a></li>
+        <li id="resub" class="menu-item"><a href="$base/create?form=resub">Resubmission</a></li>
+        <li id="redigi" class="menu-item"><a href="$base/create?form=redigi">ReDigi</a></li>
         </ul>
     </nav>
     <nav class="navbar navbar-right">
         <ul>
-        <li><button class="btn btn-active" id="btn-table" onclick="activateTable()">Table</button></li>
-        <li><button class="btn" id="btn-json" onclick="activateJSON()">JSON</button></li>
+        <li><button class="btn btn-active" id="btn-table" onclick="ActivateTable()">Table</button></li>
+        <li><button class="btn" id="btn-json" onclick="ActivateJSON()">JSON</button></li>
         </ul>
     </nav>
 </header>
 
-<form method="post" action="$base/confirm_create" class="forms">
+<form method="post" action="$base/confirm_create" class="forms" name="$name">
 <div name="edit-table" id="edit-table">
 <strong>
 Please use the following table to fill out template form. If you need to extend it
@@ -32,7 +32,7 @@ $table
     </p>
 </div>
 </form>
-<form method="post" action="$base/confirm_create" class="forms">
+<form method="post" action="$base/confirm_create" class="forms" name="$name JSON">
 <div name="edit-json" id="edit-json" class="hide">
     <textarea class="editor lined">
 $jsondata
@@ -43,19 +43,26 @@ $jsondata
     </p>
 </div>
 </form>
+<div>
+
 <script>
-function activateTable() {
+function ActivateTable() {
     var id = document.getElementById('btn-table');
     id.className="btn btn-active";
     id = document.getElementById('btn-json');
     id.className="btn";
     ShowTag('edit-table');HideTag('edit-json');
 }
-function activateJSON() {
+function ActivateJSON() {
     var id = document.getElementById('btn-json');
     id.className="btn btn-active";
     id = document.getElementById('btn-table');
     id.className="btn";
     ShowTag('edit-json');HideTag('edit-table');
 }
+function ShowForm(tag) {
+    var id=document.getElementById(tag);
+    id.className='menu-item active underline'
+}
+ShowForm('$name')
 </script>
