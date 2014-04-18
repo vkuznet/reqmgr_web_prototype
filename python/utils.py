@@ -37,7 +37,7 @@ def quote(data):
             res = ""
     return res
 
-def json2table(jsondata):
+def json2table(jsondata, web_ui_map):
     """
     Convert input json dict into HTML table based on assumtion that
     input json is in a simple key:value form.
@@ -50,7 +50,7 @@ def json2table(jsondata):
         if  isinstance(val, list):
             sel = "<select>"
             values = sorted(val)
-            if  key in ['releases', 'software_releases']:
+            if  key in ['releases', 'software_releases', 'CMSSWVersion', 'ScramArch']:
                 values.reverse()
             for item in values:
                 sel += "<option>%s</option>" % item
@@ -63,7 +63,10 @@ def json2table(jsondata):
                 val = '<textarea name="%s" class="width-100">%s</textarea>' % (key, val)
         else:
             val = '<input type="text" name="%s" value="%s" />' % (key, val)
-        kname = key.capitalize().replace('_', ' ')
+        if  key in web_ui_map:
+            kname = web_ui_map[key]
+        else:
+            kname = key.capitalize().replace('_', ' ')
         table += "<tr><td>%s</td><td>%s</td></tr>\n" % (kname, val)
     table += "</table>"
     return table
