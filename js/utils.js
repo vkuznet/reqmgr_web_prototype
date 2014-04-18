@@ -176,9 +176,9 @@ function CheckAll(bx) {
 }
 // change menu items
 function ChangeMenuItem(cls, tag) {
-    var item = document.getElementsByClassName(cls);
-    for (var i = 0; i < item.length; i++ ) {
-        item[i].className=cls;
+    var items = document.getElementsByClassName(cls);
+    for (var i = 0; i < items.length; i++ ) {
+        items[i].className=cls;
     }
     tag.parentNode.className = cls+" active underline"
 }
