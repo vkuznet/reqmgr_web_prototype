@@ -52,19 +52,27 @@ def menus(active='search'):
     mdict[active] = 'active'
     return mdict
 
-class WebManager(TemplatedPage):
+class ReqMgrService(TemplatedPage):
     """
-    web manager.
+    Request Manager web service class
     """
     def __init__(self, config=None):
         self.base   = os.environ.get('WEB_BASE', '') # defines base path for HREF in templates
+        if  config and not isinstance(config, dict):
+            config = config.dictionary_()
         if  not config:
             config = {'base': self.base}
+        print "\n### Configuration:"
+        pprint.pprint(config)
         TemplatedPage.__init__(self, config)
-        self.imgdir = os.environ.get('IMG_ROOT', os.getcwd()+'/images')
-        self.cssdir = os.environ.get('CSS_ROOT', os.getcwd()+'/css')
-        self.jsdir  = os.environ.get('JS_ROOT', os.getcwd()+'/js')
-        self.yuidir = os.environ.get('YUI_ROOT', os.getcwd()+'/yui')
+        imgdir = os.environ.get('RM_IMAGESPATH', os.getcwd()+'/images')
+        self.imgdir = config.get('imgdir', imgdir)
+        cssdir = os.environ.get('RM_CSSPATH', os.getcwd()+'/css')
+        self.cssdir = config.get('cssdir', cssdir)
+        jsdir  = os.environ.get('RM_JSPATH', os.getcwd()+'/js')
+        self.jsdir = config.get('jsdir', jsdir)
+        yuidir = os.environ.get('YUI_ROOT', os.getcwd()+'/yui')
+        self.yuidir = config.get('yuidir', yuidir)
 
         # To be filled at run time
         self.cssmap = {}

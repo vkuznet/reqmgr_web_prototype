@@ -5,9 +5,7 @@
 Web tools.
 """
 
-__license__ = "GPL"
 __revision__ = "$Id: tools.py,v 1.5 2010/04/07 18:19:31 valya Exp $"
-__version__ = "$Revision: 1.5 $"
 __author__ = "Valentin Kuznetsov"
 __email__ = "vkuznet@gmail.com"
 
@@ -15,7 +13,6 @@ __email__ = "vkuznet@gmail.com"
 import os
 import types
 import logging
-import plistlib
 
 from datetime import datetime, timedelta
 from time import mktime
@@ -76,8 +73,8 @@ class TemplatedPage(Page):
     """
     def __init__(self, config):
         Page.__init__(self)
-        templatedir  = os.environ.get('TMPL_ROOT', os.getcwd()+'/templates')
-        self.templatedir = config.get('templatedir', templatedir)
+        tmpldir  = os.environ.get('RM_TMPLPATH', os.getcwd()+'/templates')
+        self.templatedir = config.get('tmpldir', tmpldir)
         self.name = "TemplatedPage"
         self.base = config.get('base', '')
         verbose = config.get('verbose', 0)
@@ -186,36 +183,3 @@ def make_timestamp(seconds=0):
 def make_rfc_timestamp(seconds=0):
     """Create RFC timestamp"""
     return format_date_time(make_timestamp(seconds))
-
-def exposedasjson (func):
-    """
-    This will prepend the header to the data and calculate the checksum of
-    the data to set the etag correctly
-    """
-    @expose
-    def wrapper (self, *args, **kwds):
-        """Decorator wrapper"""
-        encoder = JSONEncoder()
-        data = func(self, *args, **kwds)
-        cherrypy.response.headers['Content-Type'] = "text/json"
-        try:
-            jsondata = encoder.encode(data)
-            return jsondata
-        except:
-            Exception("Failed to JSONtify obj '%s' type '%s'" \
-                % (data, type(data)))
-    return wrapper
-
-def exposedasplist (func):
-    """
-    Return data in XML plist format, 
-    see http://docs.python.org/library/plistlib.html#module-plistlib
-    """
-    @expose
-    def wrapper (self, *args, **kwds):
-        """Decorator wrapper"""
-        data_struct = func(self, *args, **kwds)
-        plist_str = plistlib.writePlistToString(data_struct)
-        cherrypy.response.headers['Content-Type'] = "application/xml"
-        return plist_str
-    return wrapper

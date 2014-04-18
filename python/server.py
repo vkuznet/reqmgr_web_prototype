@@ -2,7 +2,7 @@
 
 import os
 import cherrypy
-from webmgr import WebManager
+from ReqMgrService import ReqMgrService
 
 def main():
     "Main function"
@@ -20,7 +20,7 @@ def main():
                   ('Cache-Control','no-store, no-cache, must-revalidate,post-check=0, pre-check=0')]
               }, 
         }
-    cherrypy.quickstart(WebManager(), base, config=conf)
+    cherrypy.quickstart(ReqMgrService(), base, config=conf)
 
 if __name__ == '__main__':
     main()
