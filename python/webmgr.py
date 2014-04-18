@@ -172,7 +172,7 @@ class WebManager(TemplatedPage):
     def create(self, **kwargs):
         """create page"""
         req_form = kwargs.get('form', 'rereco')
-        fname = str(req_form) + '.json'
+        fname = 'json/%s' % str(req_form)
         # request form
         jsondata = self.templatepage(fname,
                 user=json.dumps(self.user()),
