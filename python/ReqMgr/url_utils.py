@@ -130,7 +130,7 @@ def getdata(url, params, headers=None, post=None, verbose=False):
     except urllib2.HTTPError as httperror:
         msg  = 'HTTPError, url=%s, args=%s, headers=%s' \
                     % (url, params, headers)
-        data = {'error': 'Unable to contact %s' % contact, 'reason': msg}
+        data = {'error': 'Unable to contact %s' % url , 'reason': msg}
         try:
             data.update({'httperror':extract_http_error(httperror.read())})
         except Exception as exp:

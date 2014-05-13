@@ -1,3 +1,14 @@
+from WMCore.RequestManager.RequestDB.Settings.RequestStatus import StatusList, NextStatus
+
+def next_status(status=None):
+    "Return next ReqMgr status for given status"
+    if  status:
+        if  status in NextStatus:
+            return NextStatus[status]
+        else:
+            return 'N/A'
+    return StatusList
+
 def web_ui_names():
     "Return dict of web UI JSON naming conventions"
     maps = {"InputDataset": "Input Dataset",

@@ -20,11 +20,11 @@ from cherrypy import expose, response, tools
 from cherrypy.lib.static import serve_file
 from cherrypy import config as cherryconf
 
-from tools import exposecss, exposejs, exposejson, TemplatedPage
-from utils import json2table, genid
-from url_utils import getdata
-from cms import dqm_urls, dbs_urls, releases, architectures, scenarios, cms_groups
-from cms import web_ui_names
+from ReqMgr.tools import exposecss, exposejs, exposejson, TemplatedPage
+from ReqMgr.utils import json2table, genid
+from ReqMgr.url_utils import getdata
+from ReqMgr.cms import dqm_urls, dbs_urls, releases, architectures, scenarios, cms_groups
+from ReqMgr.cms import web_ui_names, next_status
 
 def set_headers(itype, size=0):
     """
@@ -47,7 +47,8 @@ def minify(content):
 
 def menus(active='search'):
     "Return dict of menus"
-    items = ['admin', 'assign', 'approve', 'create', 'requests', 'search', 'validate']
+#    items = ['admin', 'assign', 'approve', 'create', 'requests', 'search', 'validate']
+    items = ['admin', 'assign', 'approve', 'create', 'requests']
     mdict = dict(zip(items, ['']*len(items)))
     mdict[active] = 'active'
     return mdict
@@ -170,9 +171,16 @@ class ReqMgrService(TemplatedPage):
 
     @expose
     def approve(self, **kwargs):
-        """approve page"""
-        wdict = dict(date=time.ctime(), team='Team-A', status='Pending', ID=genid(time.time()))
-        requests = [wdict, wdict, wdict]
+        """
+        Approve page: get list of request associated with user DN.
+        Fetch their status list from ReqMgr and display if requests
+        were seen by data-ops.
+        """
+        requests = []
+        for rstat in ['new', 'new', 'assigned', 'running']:
+            wdict = dict(date=time.ctime(), team='Team-A', status=rstat, ID=genid(time.time()))
+            requests.append(wdict)
+        print "Env:", os.environ['PYTHONPATH']
         content = self.templatepage('approve', requests=requests)
         return self.abs_page('generic', content)
 
@@ -212,22 +220,28 @@ class ReqMgrService(TemplatedPage):
         return self.abs_page('generic', content)
 
     @expose
+    def generate_objs(self, **kwargs):
+        """create page interface: generate objects from givem JSON template"""
+        jsondict = json.loads(kwargs.get('jsondict'))
+        code = kwargs.get('code')
+        if  code.find('def genobjs(jsondict)') == -1:
+            return self.error("Improper python snippet, your code should start with <b>def genobjs(jsondict)</b> function")
+        exec(code)
+        objs = genobjs(jsondict)
+        rids = []
+        for iobj in objs:
+            print "### generate JSON"
+            print iobj
+            rids.append(genid(iobj))
+        content = self.templatepage('confirm', ticket=rids, user=self.user())
+        return self.abs_page('generic', content)
+
+    @expose
     def requests(self, **kwargs):
         """Check status of requests"""
-        rid = kwargs.get('rid', '')
-        content = self.templatepage('requests', rid=rid)
-        return self.abs_page('generic', content)
-
-    @expose
-    def search(self, **kwargs):
-        """search page"""
-        content = self.templatepage('search', content="")
-        return self.abs_page('generic', content)
-
-    @expose
-    def validate(self, **kwargs):
-        """validate page"""
-        content = self.templatepage('validate')
+        wdict = dict(date=time.ctime(), team='Team-A', status='Pending', ID=genid(time.time()))
+        requests = [wdict, wdict, wdict]
+        content = self.templatepage('requests', requests=requests)
         return self.abs_page('generic', content)
 
     @expose

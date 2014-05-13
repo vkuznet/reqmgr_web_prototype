@@ -1,3 +1,6 @@
+#from ReqMgr.utils import gen_color
+#from ReqMgr.cms import next_status
+
 <h2>Approve interface</h2>
 <hr/>
 <header class="group">
@@ -21,17 +24,36 @@
 #for rdict in $requests
 <header class="group">
 <nav class="navbar navbar-left">
+#set rstat=$rdict['status']
 #for key, val in $rdict.items()
 #if $key.lower()=="date"
 #set val="<kbd>%s</kbd>"%$val
 #elif $key.lower()=="id"
 #set val='&nbsp;<span class="ticket">%s</span>&nbsp;'%$val
 #end if
-    <strong>$key.capitalize():</strong>&nbsp;$val
+<strong>$key.capitalize():</strong>&nbsp;
+#if $key=="status"
+#set color=$gen_color($rstat)
+    <b><span style="color:$color;background-color:#fff;padding:3px;">$val</span></b>
+#else
+    $val
+#end if
 #end for
+<br/>
+<strong>Next Status:</strong>
+<select>
+#for st in $next_status($rstat)
+<option>$st</option>
+#end for
+</select>
+Request seen by D. Mason on 02/02/02.
 </nav>
 <nav class="navbar navbar-right">
+#if $rstat=="new"
     <button class="btn btn-gray" onclick="ApproveOk(this)">Approve</button>
+#else
+    <button class="btn btn-disabled">$rstat</button>
+#end if
 </nav>
 </header>
 <hr/>

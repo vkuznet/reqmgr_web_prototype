@@ -12,6 +12,13 @@ import cgi
 import json
 import hashlib
 
+def gen_color(val):
+    "Generate unique color code for given string value"
+    keyhash = hashlib.md5()
+    keyhash.update(val)
+    col = '#%s' % keyhash.hexdigest()[:6]
+    return col
+
 def quote(data):
     """
     Sanitize the data using cgi.escape.

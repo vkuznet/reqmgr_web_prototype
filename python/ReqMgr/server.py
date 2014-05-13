@@ -2,7 +2,7 @@
 
 import os
 import cherrypy
-from ReqMgrService import ReqMgrService
+from ReqMgr.ReqMgrService import ReqMgrService
 
 def main():
     "Main function"

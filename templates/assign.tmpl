@@ -1,21 +1,28 @@
 <h2>Assign interface</h2>
 <hr/>
-Request statistics: N-requests, last update: 20140303
-The search field will allow to search request by their names.
-The search results will appear in table below, otherwise it
-will show all existing request
+<header class="group">
+<nav class="navbar navbar-left">
+    <strong>
+    This interface will only show requests which are required assingments based<br/>
+    on your DN roles. If you have unsifficient role this part will not be<br/>
+    visible to user.
+    </strong>
+</nav>
+<nav class="navbar navbar-right">
+    <ul>
+        <li>Sort by:</li>
+        <li class="menu-item active underline"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Status</a></li>
+        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Date</a></li>
+        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Id</a></li>
+        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Team</a></li>
+    </ul>
+</nav>
+</header>
 
-<form method="get" action="$base/request" class="forms">
-    <label class="input-groups">
-        <input type="text" name="uinput" placeholder="Request name" />
-        <span class="btn-append">
-            <button class="btn btn-blue">Search</button>
-        </span>
-    </label>
-</form>
+<hr/>
 
 <h4>Existing requests</h4>
-This will be sorted scrolled table of pending requests (will show
+This will be sorted sortable table of pending requests (will show
 first N requests).
 Users will be able to perform sort by user/request/teams.
 Once satisfied with selection user will be able to perform an action to selected
@@ -67,23 +74,13 @@ group of requests.
     </tbody>
     </table>
 </div>
-<!--
-<div class="units-row">
-    <div class="unit-20 unit-push-60">
-        <select>
-            <option>SomeGroupName</option>
-        </select>
-    </div>
-    <div class="unit-40 unit-push-right">
-        <button class="btn btn-green">Assign</button>
-    </div>
-</div>
--->
 <div class="units-row">
     <div class="unit-push-right">
         <ul class="forms-inline-list">
         <li>
             <select>
+                <option>SomeGroupName</option>
+                <option>SomeGroupName</option>
                 <option>SomeGroupName</option>
             </select>
         </li>

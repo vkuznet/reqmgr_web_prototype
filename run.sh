@@ -13,4 +13,4 @@ export YUI_ROOT=/Users/vk/CMS/yui
 export WEB_PORT=18765
 export WEB_HOST='0.0.0.0'
 export WEB_BASE='' # modify if want to mount server on different base
-python -u python/server.py
+python -u python/ReqMgr/server.py
