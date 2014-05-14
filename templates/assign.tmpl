@@ -1,32 +1,32 @@
-<h2>Assign interface</h2>
-<hr/>
 <header class="group">
-<nav class="navbar navbar-left">
-    <strong>
-    This interface will only show requests which are required assingments based<br/>
-    on your DN roles. If you have unsifficient role this part will not be<br/>
-    visible to user.
-    </strong>
-</nav>
-<nav class="navbar navbar-right">
-    <ul>
-        <li>Sort by:</li>
-        <li class="menu-item active underline"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Status</a></li>
-        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Date</a></li>
-        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Id</a></li>
-        <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Team</a></li>
-    </ul>
-</nav>
+    <nav class="navbar navbar-left">
+        <h2>Assign interface</h2>
+    </nav>
+    <nav class="navbar navbar-right">
+        <ul>
+        <li><button class="btn btn-active" id="btn-requests" onclick="activateRequests()">Requests</button></li>
+        <li><button class="btn" id="btn-manage" onclick="activateManage()">Manage</button></li>
+        </ul>
+    </nav>
+</header>
+<hr/>
+
+<div id="requests">
+<header class="group">
+    <nav class="navbar navbar-left">
+        <h4>Existing requests</h4>
+    </nav>
+    <nav class="navbar navbar-right">
+        <ul>
+            <li>Sort by:</li>
+            <li class="menu-item active underline"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Status</a></li>
+            <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Date</a></li>
+            <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Id</a></li>
+            <li class="menu-item"><a href="#" onclick="ChangeMenuItem('menu-item', this);">Team</a></li>
+        </ul>
+    </nav>
 </header>
 
-<hr/>
-
-<h4>Existing requests</h4>
-This will be sorted sortable table of pending requests (will show
-first N requests).
-Users will be able to perform sort by user/request/teams.
-Once satisfied with selection user will be able to perform an action to selected
-group of requests.
 <form method="post" action="$base/confirm_create" class="forms">
 
 <div class="table-container">
@@ -90,5 +90,202 @@ group of requests.
         </ul>
     </div>
 </div>
+</div> <!-- end of requests section -->
+
+<div id="manage" class="hide">
+<h4>Request management</h4>
+
+<h5>Site lists</h5>
+<ul class="blocks-3">
+    <li>Whitelist<br/>
+        <select name="site-whitelist" class="width-50" multiple="multiple" size="10">
+        #for site in $sites
+        <option value="$site">$site</option>
+        #end for
+        </select>
+    </li>
+    <li>Blacklist<br/>
+        <select name="site-blacklist" class="width-50" multiple="multiple" size="10">
+        #for site in $sites
+        <option value="$site">$site</option>
+        #end for
+        </select>
+    </li>
+</ul>
+
+<hr/>
+
+<h5>PhEDEx subscription</h5>
+<ul class="blocks-3">
+    <li>Custodial sites<br/>
+        <select name="site-whitelist" class="width-50" multiple="multiple" size="10">
+        #for site in $sites
+        <option value="$site">$site</option>
+        #end for
+        </select>
+    </li>
+    <li>Non-Custodial sites<br/>
+        <select name="site-blacklist" class="width-50" multiple="multiple" size="10">
+        #for site in $sites
+        <option value="$site">$site</option>
+        #end for
+        </select>
+    </li>
+    <li>Auto-Approve sites<br/>
+        <select name="site-blacklist" class="width-50" multiple="multiple" size="10">
+        #for site in $sites
+        <option value="$site">$site</option>
+        #end for
+        </select>
+    </li>
+</ul>
+
+<hr/>
+
+<h5>Misc Options</h5>
+<div class="table-container">
+<table class="table-bordered width-100">
+
+<tr>
+<td>Subscription Priority</td>
+<td>
+<select name="subscription_priority">
+<option value="Low">Low</option>
+<option value="Normal">Normal</option>
+<option value="High">High</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td>Custodial SUbscription Type</td>
+<td>
+<select name="custodial_subscription_type">
+<option value="Move">Move</option>
+<option value="Replica">Replica</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td>Merged LFN Base</td>
+<td>
+<select name="subscription_priority">
+#for base in $lfn_bases
+<option value="$base">$base</option>
+#end for
+</select>
+</td>
+</tr>
+
+<tr>
+<td>Unmerged LFN Base</td>
+<td>
+<select name="custodial_subscription_type">
+#for base in $lfn_unmerged_bases
+<option value="$base">$base</option>
+#end for
+<option value="/store/temp">/store/temp</option>
+<option value="/store/unmerged">/store/unmerged</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td>Min Merge Size</td>
+<td><input name="min_merge_size" value="2147483648" /></td>
+</tr>
+<tr>
+<td>Max Merge Size</td>
+<td><input name="max_merge_size" value="4294967296" /></td>
+</tr>
+<tr>
+<td>Max Merge Events</td>
+<td><input name="max_merge_events" value="50000" /></td>
+</tr>
+<tr>
+<td>Memory limit RSS (KiBytes)</td>
+<td><input name="memory_limit_rss" value="2411724" /></td>
+</tr>
+<tr>
+<td>Memory limit VSS (KiBytes)</td>
+<td><input name="memory_limit_vss" value="20411724" /></td>
+</tr>
+<tr>
+<td>Timeout (Seconds)</td>
+<td><input name="timeout" value="129600" /></td>
+</tr>
+<tr>
+<td>GracePeriod (Seconds)</td>
+<td><input name="grace_period" value="300" /></td>
+</tr>
+<tr>
+<td>Block timeout (Seconds)</td>
+<td><input name="block_timeout" value="66400" /></td>
+</tr>
+<tr>
+<td>Max number of files</td>
+<td><input name="max_nfiles" value="500" /></td>
+</tr>
+<tr>
+<td>Max number of events</td>
+<td><input name="max_nevents" value="250000000" /></td>
+</tr>
+<tr>
+<td>Max block size (Bytes)</td>
+<td><input name="max_block_size" value="5000000000000" /></td>
+</tr>
+<tr>
+<td>Acquisition Era:</td>
+<td><input name="acquisition_era" /></td>
+</tr>
+<tr>
+<td>Processing Version:</td>
+<td><input name="processing_version" /></td>
+</tr>
+<tr>
+<td>Processing String:</td>
+<td><input name="processing_string"/></td>
+</tr>
+<tr>
+<td>Dashboard Activity:</td>
+<td>
+<select name="dashboard_activity">
+<option>integration</option>
+<option>reprocessing</option>
+<option>production</option>
+<option>relval</option>
+<option>test</option>
+<option>analysis</option>
+</select>
+</td>
+</tr>
+</table>
+</div> <!-- end of table-container -->
+
+
+
+</div> <!-- end of manage section -->
 
 </form>
+
+<script>
+function activateRequests() {
+    id = document.getElementById('btn-manage');
+    id.className="btn";
+    HideTag('manage');
+    // show active button
+    var id = document.getElementById('btn-requests');
+    id.className="btn btn-active";
+    ShowTag('requests');
+}
+function activateManage() {
+    id = document.getElementById('btn-requests');
+    id.className="btn";
+    HideTag('requests');
+    // show active button
+    var id = document.getElementById('btn-manage');
+    id.className="btn btn-active";
+    ShowTag('manage');
+}
+</script>
