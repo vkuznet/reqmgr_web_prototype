@@ -1,4 +1,5 @@
 from WMCore.RequestManager.RequestDB.Settings.RequestStatus import StatusList, NextStatus
+from WMCore.Services.SiteDB.SiteDB import SiteDBJSON
 
 def next_status(status=None):
     "Return next ReqMgr status for given status"
@@ -8,6 +9,55 @@ def next_status(status=None):
         else:
             return 'N/A'
     return StatusList
+
+def sites():
+    "Return known CMS site list from SiteDB"
+    try:
+        # Download a list of all the sites from SiteDB, uses v2 API.
+        sitedb = SiteDBJSON()
+        sites = sitedb.getAllCMSNames()
+        sites.sort()
+    except Exception as exc:
+        msg = "ERROR: Could not retrieve sites from SiteDB, reason: %s" % str(exc)
+        raise Exception(msg)
+    return sites
+
+def lfn_bases():
+    "Return LFN Base list"
+    storeResultLFNBase = [
+        "/store/backfill/1",
+        "/store/backfill/2",
+        "/store/data",
+        "/store/mc",
+        "/store/generator",
+        "/store/relval",
+        "/store/hidata",
+        "/store/himc",
+        "/store/results/analysisops",
+        "/store/results/b_physics",
+        "/store/results/b_tagging",
+        "/store/results/b2g",
+        "/store/results/e_gamma_ecal",
+        "/store/results/ewk",
+        "/store/results/exotica",
+        "/store/results/forward",
+        "/store/results/heavy_ions",
+        "/store/results/higgs",
+        "/store/results/jets_met_hcal",
+        "/store/results/muon",
+        "/store/results/qcd",
+        "/store/results/susy",
+        "/store/results/tau_pflow",
+        "/store/results/top",
+        "/store/results/tracker_dpg",
+        "/store/results/tracker_pog",
+        "/store/results/trigger"]
+    return storeResultLFNBase
+
+def lfn_unmerged_bases():
+    "Return list of LFN unmerged bases"
+    out = ["/store/unmerged", "/store/temp"]
+    return out
 
 def web_ui_names():
     "Return dict of web UI JSON naming conventions"
