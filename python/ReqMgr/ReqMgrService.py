@@ -24,7 +24,8 @@ from ReqMgr.tools import exposecss, exposejs, exposejson, TemplatedPage
 from ReqMgr.utils import json2table, genid
 from ReqMgr.url_utils import getdata
 from ReqMgr.cms import dqm_urls, dbs_urls, releases, architectures, scenarios, cms_groups
-from ReqMgr.cms import web_ui_names, next_status
+from ReqMgr.cms import web_ui_names, next_status, sites
+from ReqMgr.cms import lfn_bases, lfn_unmerged_bases
 
 def set_headers(itype, size=0):
     """
@@ -166,7 +167,9 @@ class ReqMgrService(TemplatedPage):
     @expose
     def assign(self, **kwargs):
         """assign page"""
-        content = self.templatepage('assign')
+        content = self.templatepage('assign',
+                sites=sites(), lfn_bases=lfn_bases(),
+                lfn_unmerged_bases=lfn_unmerged_bases())
         return self.abs_page('generic', content)
 
     @expose
